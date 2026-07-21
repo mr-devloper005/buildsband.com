@@ -1,4 +1,8 @@
 import type { TaskKey } from '@/lib/site-config'
+import { slot4BrandConfig } from '@/editable/theme/brand.config'
+
+const LIBRARY = slot4BrandConfig.labels.library
+const CURATORS = slot4BrandConfig.labels.contributors
 
 export type TaskPageVoice = {
   eyebrow: string
@@ -10,60 +14,60 @@ export type TaskPageVoice = {
 }
 
 export const taskPageVoices = {
+  sbm: {
+    eyebrow: LIBRARY,
+    headline: `Bookmarks worth keeping, shelved by hand.`,
+    description: `Every collection here is a shelf a ${CURATORS.toLowerCase().slice(0, -1)} opened, curated, and keeps tending. Pick one and walk in.`,
+    filterLabel: 'Filter shelf',
+    secondaryNote: `${CURATORS} keep the collections small enough to read end-to-end.`,
+    chips: ['Curated collections', 'Weekly link check', 'Human-picked'],
+  },
   article: {
-    eyebrow: 'Reading desk',
-    headline: 'Long-form articles with a calmer editorial rhythm.',
-    description: 'Use this page for essays, guides, explainers, and story-led posts. The layout should feel like a publication, not a directory.',
-    filterLabel: 'Choose article topic',
-    secondaryNote: 'Reading surfaces need space, hierarchy, and fewer distractions.',
-    chips: ['Editorial pacing', 'Topic filters', 'Long-read friendly'],
+    eyebrow: 'Long reads',
+    headline: 'Essays, guides, and pieces worth an hour.',
+    description: 'Slower, longer, and made for reading — not scrolling. Each piece lives on a shelf of its own.',
+    filterLabel: 'Filter topic',
+    secondaryNote: 'Reading rewards attention. So does the page.',
+    chips: ['Editorial pacing', 'Deeper reading', 'One at a time'],
   },
   classified: {
     eyebrow: 'Notice board',
-    headline: 'Fast-moving classifieds, offers, and time-sensitive posts.',
-    description: 'Classified content should feel quick to scan, practical, and action-oriented with less editorial decoration.',
-    filterLabel: 'Filter classified category',
-    secondaryNote: 'Prioritize urgency, short summaries, and direct browsing.',
-    chips: ['Fast scan', 'Offers', 'Action cues'],
-  },
-  sbm: {
-    eyebrow: 'Saved resources',
-    headline: 'Social bookmarks arranged like curated collections.',
-    description: 'Bookmark pages should feel like shelves of useful resources, tools, references, and collections.',
-    filterLabel: 'Filter collection',
-    secondaryNote: 'Curated resources need grouping and calm metadata.',
-    chips: ['Collections', 'Resources', 'Reference flow'],
+    headline: 'Open calls and short-lived listings.',
+    description: 'The corkboard of the library — fast to scan, easy to act on, gone when the moment passes.',
+    filterLabel: 'Filter notice',
+    secondaryNote: 'Urgency, honestly labelled.',
+    chips: ['Time-sensitive', 'Short and clear', 'Action-first'],
   },
   profile: {
-    eyebrow: 'People and profiles',
-    headline: 'Profiles with identity, trust, and reputation cues.',
-    description: 'Profile pages should make people, brands, and entities feel discoverable rather than buried in a generic feed.',
-    filterLabel: 'Filter profile category',
-    secondaryNote: 'Make identity and credibility visible before the grid begins.',
-    chips: ['Identity first', 'Trust cues', 'Creator/business cards'],
+    eyebrow: CURATORS.slice(0, -1),
+    headline: 'The person behind the shelf.',
+    description: 'A curator page tells you who tends a collection — and why they think it is worth your time.',
+    filterLabel: 'Filter curator',
+    secondaryNote: 'Named shelves. Named people.',
+    chips: ['Identity first', 'Named voice', 'Trust cues'],
   },
   pdf: {
-    eyebrow: 'Document library',
-    headline: 'PDFs and documents presented as a useful library.',
-    description: 'PDF pages should feel like downloadable guides, reports, files, and reference material instead of normal articles.',
-    filterLabel: 'Filter document type',
-    secondaryNote: 'Document surfaces need archive cues, file context, and clear browsing.',
-    chips: ['Documents', 'Guides', 'Archive ready'],
+    eyebrow: 'Documents',
+    headline: 'Reference PDFs and downloadable briefs.',
+    description: 'A reference shelf — reports, guides, and documents worth saving on disk, not just a tab.',
+    filterLabel: 'Filter document',
+    secondaryNote: 'Archive-ready, download-friendly.',
+    chips: ['Reports', 'Briefs', 'Downloadable'],
   },
   listing: {
-    eyebrow: 'Business directory',
-    headline: 'Business listings built for discovery and comparison.',
-    description: 'Listing pages should behave like a directory with trust cues, metadata, and a practical search rhythm.',
-    filterLabel: 'Filter business category',
-    secondaryNote: 'Prioritize comparison, location, and direct action paths.',
-    chips: ['Directory', 'Compare', 'Business discovery'],
+    eyebrow: 'Directory',
+    headline: 'Organisations worth knowing about.',
+    description: 'A small directory of studios, publishers, and outfits worth a look — vetted, not scraped.',
+    filterLabel: 'Filter directory',
+    secondaryNote: 'Comparison, location, and context.',
+    chips: ['Directory', 'Compare', 'Small enough to matter'],
   },
   image: {
-    eyebrow: 'Visual gallery',
-    headline: 'Image posts with a gallery-first browsing experience.',
-    description: 'Image pages should lead with visual impact, stronger cards, and a portfolio-like rhythm.',
-    filterLabel: 'Filter visual category',
-    secondaryNote: 'Let images carry the page before long text does.',
-    chips: ['Gallery', 'Visual-first', 'Portfolio mood'],
+    eyebrow: 'Visual shelf',
+    headline: 'Frames worth a second look.',
+    description: 'A gallery-first shelf for visual bookmarks — photos, illustrations, and screens worth saving.',
+    filterLabel: 'Filter visual',
+    secondaryNote: 'Let the image lead. Words come after.',
+    chips: ['Gallery', 'Visual-first', 'Slow scroll'],
   },
 } satisfies Record<TaskKey, TaskPageVoice>

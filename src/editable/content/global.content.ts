@@ -1,54 +1,67 @@
 import { slot4BrandConfig } from '@/editable/theme/brand.config'
 
+/*
+  Task keys that should never appear in the public UI. `profile` stays
+  functional (direct-URL detail pages still work) but is hidden from every
+  discovery surface: nav, footer, home, search filters, create picker.
+*/
+export const uiHiddenTaskKeys = ['profile'] as const
+
+export const isUiHiddenTask = (key: string) =>
+  (uiHiddenTaskKeys as readonly string[]).includes(key)
+
 export const globalContent = {
   site: {
     name: slot4BrandConfig.siteName,
-    tagline: slot4BrandConfig.tagline || 'Independent reading platform',
+    tagline: slot4BrandConfig.tagline || 'A library of curated bookmarks and collections',
     domain: slot4BrandConfig.domain,
     baseUrl: slot4BrandConfig.baseUrl,
   },
+  labels: {
+    library: slot4BrandConfig.labels.library,
+    contributors: slot4BrandConfig.labels.contributors,
+  },
   nav: {
-    tagline: 'Independent reading platform',
+    tagline: 'Bookmarks · collections · resources',
     primaryLinks: [
-      { label: 'Articles', href: '/articles' },
-      { label: 'Visuals', href: '/image-sharing' },
-      { label: 'Listings', href: '/listings' },
+      { label: 'About', href: '/about' },
       { label: 'Contact', href: '/contact' },
     ],
     actions: {
-      primary: { label: 'Start exploring', href: '/' },
-      secondary: { label: 'Submit', href: '/contact' },
+      primary: { label: 'Browse the library', href: '/sbm' },
+      secondary: { label: 'Submit a resource', href: '/contact' },
     },
+    searchAria: 'Search bookmarks and collections',
   },
   footer: {
-    tagline: 'Stories, resources, and discoverable posts',
-    description: 'A connected publishing surface for articles, visuals, listings, profiles, bookmarks, and downloadable resources.',
+    tagline: 'A shelf for the internet worth keeping.',
+    description:
+      'A library of curated bookmarks, collections, and resources — kept small on purpose, tended by people who care.',
     columns: [
       {
-        title: 'Explore',
-        links: [
-          { label: 'Articles', href: '/articles' },
-          { label: 'Listings', href: '/listings' },
-          { label: 'Images', href: '/image-sharing' },
-          { label: 'PDF Library', href: '/pdf' },
-        ],
+        title: 'Collections',
+        intro: 'Jump straight into a shelf.',
       },
       {
         title: 'Site',
-        links: [
-          { label: 'About', href: '/about' },
-          { label: 'Contact', href: '/contact' },
-        ],
+      },
+      {
+        title: 'Account',
       },
     ],
-    bottomNote: 'Built for clean discovery and connected publishing.',
+    bottomNote: 'Made for the people who still bookmark things.',
+    submit: { label: 'Submit a resource', href: '/contact' },
   },
   commonLabels: {
     readMore: 'Read more',
-    viewAll: 'View all',
-    explore: 'Explore',
-    latest: 'Latest',
-    related: 'Related',
-    published: 'Published',
+    viewAll: 'Browse the shelf',
+    explore: 'Open the library',
+    latest: 'Fresh bookmarks',
+    related: 'From the same shelf',
+    published: 'Added',
+    visit: 'Visit resource',
+    domain: 'Domain',
+    verified: 'Verified',
+    save: 'Save to shelf',
   },
 } as const

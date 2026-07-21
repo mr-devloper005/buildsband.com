@@ -1,39 +1,51 @@
 import type { CSSProperties } from 'react'
 
+/*
+  Design contract for the editorial reference language.
+  Warm cream base, near-black ink, orange punch, Anton display + Roboto body.
+  Sharp corners, hairline borders, oversized editorial rhythm.
+*/
+
 export const editableRootStyle = {
-  // Yelp-style system: clean white surfaces, signature red accent, hairline
-  // gray borders, near-black text. Flat (no gradients), generous and premium.
-  '--slot4-page-bg': '#ffffff',
-  '--slot4-page-text': '#1a1a1a',
-  '--slot4-panel-bg': '#f7f7f7',
+  '--slot4-page-bg': '#faf4eb',
+  '--slot4-page-text': '#131116',
+  '--slot4-panel-bg': '#f2ecdf',
   '--slot4-surface-bg': '#ffffff',
-  '--slot4-muted-text': '#6b6b6b',
-  '--slot4-soft-muted-text': '#999999',
-  '--slot4-accent': '#d32323',
-  '--slot4-accent-fill': '#d32323',
-  '--slot4-accent-soft': '#fdecec',
-  '--slot4-on-accent': '#ffffff',
-  '--slot4-dark-bg': '#1a1a1a',
-  '--slot4-dark-text': '#ffffff',
-  '--slot4-media-bg': '#eeeeee',
-  '--slot4-cream': '#ffffff',
-  '--slot4-warm': '#f7f7f7',
-  '--slot4-lavender': '#ffffff',
-  '--slot4-gray': '#f7f7f7',
+  '--slot4-muted-text': '#5a544d',
+  '--slot4-soft-muted-text': '#8a8378',
+  '--slot4-accent': '#f56815',
+  '--slot4-accent-fill': '#f56815',
+  '--slot4-accent-soft': 'rgba(245,104,21,0.10)',
+  '--slot4-on-accent': '#faf4eb',
+  '--slot4-dark-bg': '#131116',
+  '--slot4-dark-text': '#faf4eb',
+  '--slot4-media-bg': '#e8e1d1',
+  '--slot4-cream': '#faf4eb',
+  '--slot4-warm': '#f2ecdf',
   '--slot4-body-gradient': 'none',
-  '--editable-page-bg': '#ffffff',
-  '--editable-page-text': '#1a1a1a',
-  '--editable-container': '1500px',
-  '--editable-border': '#e6e6e6',
-  '--editable-nav-bg': '#ffffff',
-  '--editable-nav-text': '#1a1a1a',
-  '--editable-nav-active': '#d32323',
-  '--editable-nav-active-text': '#ffffff',
-  '--editable-cta-bg': '#d32323',
-  '--editable-cta-text': '#ffffff',
+
+  '--editable-page-bg': '#faf4eb',
+  '--editable-page-text': '#131116',
+  '--editable-container': '1440px',
+  '--editable-gutter': '2.5rem',
+  '--editable-section-y': '6rem',
+  '--editable-section-y-hero': '9rem',
+  '--editable-border': 'rgba(19,17,22,0.12)',
+  '--editable-border-strong': 'rgba(19,17,22,0.25)',
+  '--editable-border-inverse': 'rgba(250,244,235,0.20)',
+  '--editable-radius-sharp': '0px',
+  '--editable-radius-chip': '3px',
+  '--editable-radius-pill': '999px',
+
+  '--editable-nav-bg': '#faf4eb',
+  '--editable-nav-text': '#131116',
+  '--editable-nav-active': '#f56815',
+  '--editable-nav-active-text': '#faf4eb',
+  '--editable-cta-bg': '#f56815',
+  '--editable-cta-text': '#faf4eb',
   '--editable-search-bg': '#ffffff',
-  '--editable-footer-bg': '#ffffff',
-  '--editable-footer-text': '#1a1a1a',
+  '--editable-footer-bg': '#131116',
+  '--editable-footer-text': '#faf4eb',
 } as CSSProperties
 
 export const editablePalette = {
@@ -48,65 +60,77 @@ export const editablePalette = {
   accentText: 'text-[var(--slot4-accent)]',
   accentBg: 'bg-[var(--slot4-accent-fill)]',
   accentSoftBg: 'bg-[var(--slot4-accent-soft)]',
-  accentSoftText: 'text-[var(--slot4-accent-soft)]',
   onAccentText: 'text-[var(--slot4-on-accent)]',
   darkBg: 'bg-[var(--slot4-dark-bg)]',
   darkText: 'text-[var(--slot4-dark-text)]',
   mediaBg: 'bg-[var(--slot4-media-bg)]',
   creamBg: 'bg-[var(--slot4-cream)]',
   warmBg: 'bg-[var(--slot4-warm)]',
-  lavenderBg: 'bg-[var(--slot4-lavender)]',
-  grayBg: 'bg-[var(--slot4-gray)]',
   border: 'border-[var(--editable-border)]',
-  darkBorder: 'border-white/10',
-  shadow: 'shadow-[0_1px_3px_rgba(0,0,0,0.08)]',
-  shadowStrong: 'shadow-[0_4px_18px_rgba(0,0,0,0.12)]',
-  overlay: 'bg-[linear-gradient(180deg,rgba(0,0,0,0.02),rgba(0,0,0,0.72))]',
+  borderStrong: 'border-[var(--editable-border-strong)]',
+  darkBorder: 'border-[var(--editable-border-inverse)]',
 } as const
 
 export const editableDesignContract = {
   shell: {
     page: `min-h-screen ${editablePalette.pageBg} ${editablePalette.pageText}`,
-    section: 'mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8',
-    sectionY: 'py-14 sm:py-16 lg:py-20',
+    section: 'mx-auto w-full max-w-[var(--editable-container)] px-5 sm:px-8 lg:px-10',
+    sectionY: 'py-16 sm:py-20 lg:py-24',
+    sectionYLarge: 'py-24 sm:py-28 lg:py-32',
   },
   layout: {
-    safeGrid: 'grid gap-6 md:grid-cols-2 xl:grid-cols-3',
+    safeGrid: 'grid gap-6 md:grid-cols-2 lg:grid-cols-3',
     featureGrid: 'grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center',
-    rail: 'flex snap-x gap-5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
-    minRailCard: 'w-[140px] shrink-0 snap-start sm:w-[160px]',
+    rail: 'flex snap-x gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+    minRailCard: 'w-[280px] shrink-0 snap-start sm:w-[320px]',
   },
   type: {
-    eyebrow: 'text-xs font-semibold uppercase tracking-[0.28em] text-[var(--slot4-accent)]',
-    heroTitle: 'text-4xl font-semibold leading-[1.08] tracking-[-0.02em] sm:text-5xl lg:text-[3.25rem]',
-    sectionTitle: 'text-3xl font-semibold tracking-[-0.02em] sm:text-4xl',
-    body: 'text-base leading-relaxed',
+    eyebrow: 'editable-eyebrow text-[var(--slot4-accent)]',
+    eyebrowInverse: 'editable-eyebrow text-[var(--slot4-accent)]',
+    displayHero: 'editable-display text-[3rem] leading-[1.02] sm:text-[5.5rem] lg:text-[7rem]',
+    displayH1: 'editable-display text-[3rem] leading-[1.05] sm:text-[4.5rem] lg:text-[6rem]',
+    displayH2: 'editable-display text-[2.5rem] leading-[1.05] sm:text-[3.5rem] lg:text-[4.25rem]',
+    displayH3: 'editable-display text-[2rem] leading-[1.1] sm:text-[2.5rem] lg:text-[3rem]',
+    displayH4: 'editable-display text-[1.5rem] leading-[1.15] sm:text-[2rem] lg:text-[2.5rem]',
+    body: 'text-base leading-7 sm:text-[1.0625rem] sm:leading-[1.7]',
+    bodySmall: 'text-sm leading-6',
+    lead: 'text-lg leading-[1.55] sm:text-xl sm:leading-[1.5]',
   },
   surface: {
-    card: `rounded-xl border ${editablePalette.border} ${editablePalette.surfaceBg} ${editablePalette.shadow}`,
-    soft: `rounded-xl border ${editablePalette.border} ${editablePalette.panelBg}`,
-    dark: `rounded-xl ${editablePalette.darkBg} ${editablePalette.darkText} ${editablePalette.shadowStrong}`,
+    card: 'border border-[var(--editable-border)] bg-[var(--slot4-surface-bg)]',
+    soft: 'border border-[var(--editable-border)] bg-[var(--slot4-panel-bg)]',
+    dark: 'bg-[var(--slot4-dark-bg)] text-[var(--slot4-dark-text)]',
+    hairline: 'border-t border-[var(--editable-border)]',
   },
   button: {
-    primary: `inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--slot4-accent-fill)] px-6 py-3 text-sm font-bold tracking-[0.01em] text-[var(--slot4-on-accent)] transition duration-200 hover:brightness-95 active:scale-[0.98]`,
-    secondary: `inline-flex items-center justify-center gap-2 rounded-lg border border-[var(--editable-border)] bg-[var(--slot4-surface-bg)] px-6 py-3 text-sm font-bold tracking-[0.01em] text-[var(--slot4-page-text)] transition duration-200 hover:border-[var(--slot4-accent)] hover:text-[var(--slot4-accent)] active:scale-[0.98]`,
-    accent: `inline-flex items-center justify-center gap-2 rounded-lg ${editablePalette.accentBg} px-6 py-3 text-sm font-bold text-[var(--slot4-on-accent)] transition duration-200 hover:brightness-95 active:scale-[0.98]`,
+    primary:
+      'inline-flex items-center justify-center gap-2 rounded-[3px] bg-[var(--slot4-accent-fill)] px-7 py-4 text-[13px] font-medium uppercase tracking-[0.14em] text-[var(--slot4-on-accent)] transition-all duration-500 hover:bg-[var(--slot4-page-text)] hover:text-[var(--slot4-page-bg)]',
+    secondary:
+      'inline-flex items-center justify-center gap-2 rounded-[3px] border border-[var(--editable-border-strong)] bg-transparent px-7 py-4 text-[13px] font-medium uppercase tracking-[0.14em] text-[var(--slot4-page-text)] transition-all duration-500 hover:border-[var(--slot4-accent)] hover:bg-[var(--slot4-accent)] hover:text-[var(--slot4-on-accent)]',
+    ghostInverse:
+      'inline-flex items-center justify-center gap-2 rounded-[3px] border border-[var(--editable-border-inverse)] px-7 py-4 text-[13px] font-medium uppercase tracking-[0.14em] text-[var(--slot4-dark-text)] transition-all duration-500 hover:border-[var(--slot4-accent)] hover:bg-[var(--slot4-accent)] hover:text-[var(--slot4-on-accent)]',
   },
   media: {
-    frame: `relative overflow-hidden rounded-xl ${editablePalette.mediaBg}`,
-    ratio: 'aspect-[2/3]',
+    frame: 'relative overflow-hidden bg-[var(--slot4-media-bg)]',
+    ratio: 'aspect-[4/5]',
+    ratioLandscape: 'aspect-[16/10]',
   },
   motion: {
-    lift: 'transition duration-300 hover:-translate-y-1 hover:shadow-[0_8px_28px_rgba(0,0,0,0.14)]',
-    fade: 'transition duration-300 hover:opacity-80',
+    lift:
+      'transition-all duration-500 hover:-translate-y-1',
+    fade: 'transition duration-500 hover:opacity-80',
+    imageZoom:
+      'transition-transform duration-[900ms] group-hover:scale-[1.04]',
+    arrowNudge:
+      'transition-transform duration-500 group-hover:translate-x-1',
   },
 } as const
 
 export const aiLayoutRules = [
-  'Change the full site color palette in editableRootStyle first; all homepage sections consume those CSS variables.',
-  'Keep page structure in src/editable/sections/HomeSections.tsx so AI can redesign the whole home experience in one file.',
-  'Use wide readable grids; never create skinny columns for paragraphs or cards.',
-  'Use horizontal rails for dense post browsing, like the MysteryCoder reference layout.',
-  'Keep dynamic post fetching intact; do not replace posts with mock arrays.',
+  'Update tokens in editableRootStyle/editable-global.css first; components consume vars.',
+  'Never hardcode reference colors or fonts in JSX — always route through CSS variables.',
+  'Wrap every home/section block in <EditableReveal index={i}> for staggered entry.',
+  'Home + archive stay driven by real fetched posts; never replace with mock arrays.',
   'Use postHref() for all post links so task-specific routes keep working.',
+  'Sharp corners are the reference default (radius 0); reserve 3px for chips only.',
 ] as const
