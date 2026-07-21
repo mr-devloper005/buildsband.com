@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Clock3 } from 'lucide-react'
+import { ArrowUpRight, Globe } from 'lucide-react'
 import type { SitePost } from '@/lib/site-connector'
 import type { TaskKey } from '@/lib/site-config'
 import { editableDesignContract as dc, editablePalette as pal } from '@/editable/layouts/design-contract'
@@ -14,10 +14,6 @@ export function getEditablePostImage(post?: SitePost | null) {
   return mediaUrl || contentImage || logo || '/placeholder.svg?height=900&width=1400'
 }
 
-// Reduce any content payload — rich HTML, entity-encoded HTML, or already-plain text — to
-// a clean plain-text card summary. Card excerpts must never show raw markup regardless of
-// what the content API sends. Two tag-strip passes (before + after entity decode) also catch
-// entity-encoded markup like &lt;p&gt;.
 export function toPlainText(value: unknown): string {
   if (typeof value !== 'string') return ''
   return value
@@ -44,7 +40,7 @@ export function getEditableExcerpt(post?: SitePost | null, limit = 150) {
     (typeof content.excerpt === 'string' && content.excerpt) ||
     ''
   const clean = toPlainText(raw)
-  return clean.length > limit ? `${clean.slice(0, limit).trim()}...` : clean
+  return clean.length > limit ? `${clean.slice(0, limit).trim()}…` : clean
 }
 
 export function getEditableCategory(post?: SitePost | null) {
@@ -56,67 +52,108 @@ export function postHref(task: TaskKey, post: SitePost, route = `/${task}`) {
   return `${route}/${post.slug}`
 }
 
-export function EditorialFeatureCard({ post, href, label = 'Featured read' }: { post: SitePost; href: string; label?: string }) {
+function getDomain(post?: SitePost | null) {
+  const content = post?.content && typeof post.content === 'object' ? post.content as Record<string, unknown> : {}
+  const raw =
+    (typeof content.website === 'string' && content.website) ||
+    (typeof content.url === 'string' && content.url) ||
+    (typeof content.link === 'string' && content.link) ||
+    ''
+  if (!raw) return ''
+  try {
+    const withProtocol = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`
+    return new URL(withProtocol).hostname.replace(/^www\./, '')
+  } catch {
+    return raw.replace(/^https?:\/\//, '').replace(/\/$/, '')
+  }
+}
+
+/*
+  EditorialFeatureCard — dark editorial spotlight card used as the hero of a
+  section. Anton display over a dim image, orange accent kicker, ghost arrow.
+*/
+export function EditorialFeatureCard({ post, href, label = 'Featured shelf' }: { post: SitePost; href: string; label?: string }) {
   return (
-    <Link href={href} className={`group block min-w-0 overflow-hidden ${dc.surface.dark} ${dc.motion.lift}`}>
-      <div className="relative min-h-[520px] p-6 sm:p-8 lg:min-h-[620px]">
-        <img src={getEditablePostImage(post)} alt={post.title} className="absolute inset-0 h-full w-full object-cover opacity-55 transition duration-500 group-hover:scale-105" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(24,20,17,0.1),rgba(24,20,17,0.86))]" />
-        <div className="relative z-10 flex h-full min-h-[460px] flex-col justify-end lg:min-h-[560px]">
-          <span className={`${dc.type.eyebrow} ${pal.accentSoftText}`}>{label}</span>
-          <h3 className="mt-5 max-w-3xl text-4xl font-black leading-[0.95] tracking-[-0.07em] sm:text-5xl lg:text-6xl">{post.title}</h3>
-          <p className="mt-5 max-w-2xl text-sm leading-8 text-white/75 sm:text-base">{getEditableExcerpt(post, 190)}</p>
-          <span className={`mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-bold ${pal.panelText}`}>
-            Read story <ArrowRight className="h-4 w-4" />
-          </span>
-        </div>
+    <Link href={href} className={`group relative block min-h-[520px] overflow-hidden ${dc.surface.dark} ${dc.motion.lift} lg:min-h-[620px]`}>
+      <img src={getEditablePostImage(post)} alt={post.title} className={`absolute inset-0 h-full w-full object-cover opacity-45 ${dc.motion.imageZoom}`} />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(19,17,22,0)_0%,rgba(19,17,22,0.35)_45%,rgba(19,17,22,0.9)_100%)]" />
+      <div className="relative z-10 flex h-full min-h-[520px] flex-col justify-end p-8 sm:p-10 lg:min-h-[620px] lg:p-12">
+        <span className="editable-eyebrow text-[var(--slot4-accent)]">{label}</span>
+        <h3 className={`${dc.type.displayH2} mt-6 max-w-3xl text-[var(--slot4-dark-text)]`}>{post.title}</h3>
+        <p className={`${dc.type.body} mt-6 max-w-2xl text-[var(--slot4-dark-text)]/75`}>{getEditableExcerpt(post, 190)}</p>
+        <span className="editable-eyebrow mt-8 inline-flex items-center gap-3 text-[var(--slot4-dark-text)]">
+          Open the shelf
+          <ArrowUpRight className={`h-4 w-4 ${dc.motion.arrowNudge}`} />
+        </span>
       </div>
     </Link>
   )
 }
 
+/*
+  RailPostCard — horizontally scrollable rail card. Big cover, kicker,
+  Anton headline, quiet meta. Used on home rails.
+*/
 export function RailPostCard({ post, href, index }: { post: SitePost; href: string; index: number }) {
+  const domain = getDomain(post)
   return (
-    <Link href={href} className={`group ${dc.layout.minRailCard} block overflow-hidden ${dc.surface.card} ${dc.motion.lift}`}>
+    <Link href={href} className={`group ${dc.layout.minRailCard} block ${dc.surface.card} ${dc.motion.lift}`}>
       <div className={`${dc.media.frame} ${dc.media.ratio}`}>
-        <img src={getEditablePostImage(post)} alt={post.title} className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-        <span className={`absolute left-4 top-4 rounded-full ${pal.darkBg} px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-white`}>No. {String(index + 1).padStart(2, '0')}</span>
+        <img src={getEditablePostImage(post)} alt={post.title} className={`absolute inset-0 h-full w-full object-cover ${dc.motion.imageZoom}`} />
+        <span className="editable-eyebrow absolute left-5 top-5 rounded-[3px] bg-[var(--slot4-page-text)] px-2.5 py-1 text-[10px] text-[var(--slot4-page-bg)]">
+          №{String(index + 1).padStart(2, '0')}
+        </span>
       </div>
-      <div className="p-5">
-        <p className={`${dc.type.eyebrow} ${pal.accentText}`}>{getEditableCategory(post)}</p>
-        <h3 className={`mt-3 line-clamp-3 text-2xl font-black leading-tight tracking-[-0.05em] ${pal.panelText}`}>{post.title}</h3>
-        <p className={`mt-3 line-clamp-3 text-sm leading-7 ${pal.softMutedText}`}>{getEditableExcerpt(post, 135)}</p>
+      <div className="p-6">
+        <p className={dc.type.eyebrow}>{getEditableCategory(post)}</p>
+        <h3 className={`${dc.type.displayH4} mt-4 line-clamp-3 ${pal.pageText}`}>{post.title}</h3>
+        <p className={`${dc.type.bodySmall} mt-4 line-clamp-3 ${pal.mutedText}`}>{getEditableExcerpt(post, 130)}</p>
+        {domain ? (
+          <p className={`editable-eyebrow mt-5 inline-flex items-center gap-2 ${pal.softMutedText}`}>
+            <Globe className="h-3 w-3" /> {domain}
+          </p>
+        ) : null}
       </div>
     </Link>
   )
 }
 
+/*
+  CompactIndexCard — numbered index row used in dense listings.
+*/
 export function CompactIndexCard({ post, href, index }: { post: SitePost; href: string; index: number }) {
   return (
-    <Link href={href} className={`group block min-w-0 ${dc.surface.soft} p-5 ${dc.motion.lift}`}>
-      <div className="flex items-start gap-4">
-        <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${pal.darkBg} text-xs font-black text-white`}>{index + 1}</span>
+    <Link href={href} className={`group block ${dc.surface.soft} p-6 ${dc.motion.lift}`}>
+      <div className="flex items-start gap-5">
+        <span className={`editable-display shrink-0 text-[2.5rem] leading-none text-[var(--slot4-accent)]`}>
+          {String(index + 1).padStart(2, '0')}
+        </span>
         <div className="min-w-0">
-          <p className={`flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] ${pal.accentText}`}><Clock3 className="h-3.5 w-3.5" /> {getEditableCategory(post)}</p>
-          <h3 className={`mt-2 line-clamp-2 text-xl font-black leading-tight tracking-[-0.04em] ${pal.panelText}`}>{post.title}</h3>
-          <p className={`mt-2 line-clamp-2 text-sm leading-6 ${pal.softMutedText}`}>{getEditableExcerpt(post, 105)}</p>
+          <p className={dc.type.eyebrow}>{getEditableCategory(post)}</p>
+          <h3 className={`${dc.type.displayH4} mt-3 line-clamp-2 ${pal.pageText}`}>{post.title}</h3>
+          <p className={`${dc.type.bodySmall} mt-3 line-clamp-2 ${pal.mutedText}`}>{getEditableExcerpt(post, 110)}</p>
         </div>
       </div>
     </Link>
   )
 }
 
+/*
+  ArticleListCard — wide split card with cover left, headline right.
+*/
 export function ArticleListCard({ post, href, index }: { post: SitePost; href: string; index: number }) {
   return (
-    <Link href={href} className={`group grid min-w-0 gap-5 overflow-hidden ${dc.surface.card} p-4 ${dc.motion.lift} sm:grid-cols-[220px_minmax(0,1fr)]`}>
-      <div className={`${dc.media.frame} aspect-[16/12] sm:aspect-auto sm:min-h-[190px]`}>
-        <img src={getEditablePostImage(post)} alt={post.title} className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+    <Link href={href} className={`group grid overflow-hidden ${dc.surface.card} ${dc.motion.lift} sm:grid-cols-[280px_minmax(0,1fr)]`}>
+      <div className={`${dc.media.frame} aspect-[4/3] sm:aspect-auto sm:min-h-[220px]`}>
+        <img src={getEditablePostImage(post)} alt={post.title} className={`absolute inset-0 h-full w-full object-cover ${dc.motion.imageZoom}`} />
       </div>
-      <div className="min-w-0 p-2 sm:py-4 sm:pr-5">
-        <p className={`${dc.type.eyebrow} ${pal.accentText}`}>Read {String(index + 1).padStart(2, '0')}</p>
-        <h2 className={`mt-3 line-clamp-3 text-2xl font-black leading-tight tracking-[-0.05em] ${pal.panelText} sm:text-3xl`}>{post.title}</h2>
-        <p className={`mt-4 line-clamp-3 text-sm leading-7 ${pal.softMutedText}`}>{getEditableExcerpt(post, 180)}</p>
-        <span className={`mt-5 inline-flex items-center gap-2 text-sm font-black ${pal.panelText}`}>Open article <ArrowRight className="h-4 w-4" /></span>
+      <div className="flex min-w-0 flex-col p-7 sm:p-8">
+        <p className={dc.type.eyebrow}>{getEditableCategory(post)} · Nº {String(index + 1).padStart(2, '0')}</p>
+        <h2 className={`${dc.type.displayH3} mt-4 line-clamp-3 ${pal.pageText}`}>{post.title}</h2>
+        <p className={`${dc.type.body} mt-5 line-clamp-3 ${pal.mutedText}`}>{getEditableExcerpt(post, 180)}</p>
+        <span className={`editable-eyebrow mt-auto inline-flex items-center gap-2 pt-6 text-[var(--slot4-page-text)]`}>
+          Open resource <ArrowUpRight className={`h-4 w-4 ${dc.motion.arrowNudge}`} />
+        </span>
       </div>
     </Link>
   )
