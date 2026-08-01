@@ -330,34 +330,7 @@ function BookmarkDetail({ post, related }: { post: SitePost; related: SitePost[]
       {/* ============================================================ */}
       {/*  2. MANIFESTO PULL — one editorial line overlapping the hero. */}
       {/* ============================================================ */}
-      {summary ? (
-        <div className="relative bg-[var(--tk-bg)]">
-          <div className={`${dc.shell.section}`}>
-            <EditableReveal className="-mt-14 border border-[var(--tk-line)] bg-[var(--tk-surface)] p-10 shadow-[0_30px_80px_rgba(19,17,22,0.18)] sm:-mt-20 sm:p-14 lg:p-16">
-              <div className="grid gap-10 lg:grid-cols-[80px_minmax(0,1fr)_140px] lg:items-start lg:gap-14">
-                <p className="editable-display text-[3.5rem] leading-none text-[var(--tk-accent)] lg:text-[4rem]">
-                  &ldquo;
-                </p>
-                <div>
-                  <p className="editable-eyebrow text-[var(--tk-accent)]">Why we saved it</p>
-                  <p
-                    className={`${dc.type.displayH3} mt-5 max-w-3xl text-balance text-[var(--tk-text)]`}
-                  >
-                    {summary}
-                  </p>
-                </div>
-                <div className="flex flex-col items-start gap-4 lg:items-end lg:text-right">
-                  <span className="editable-eyebrow text-[var(--tk-muted)]">Filed by</span>
-                  <p className="editable-display text-[1.5rem] leading-none text-[var(--tk-text)]">
-                    {SITE_CONFIG.name}
-                  </p>
-                  <p className="editable-eyebrow text-[var(--tk-muted)]">{globalContent.labels.contributors}</p>
-                </div>
-              </div>
-            </EditableReveal>
-          </div>
-        </div>
-      ) : null}
+      
 
       {/* ============================================================ */}
       {/*  3. FACTS LEDGER STRIP — Collection · Domain · Verified.      */}
@@ -440,9 +413,7 @@ function BookmarkDetail({ post, related }: { post: SitePost; related: SitePost[]
                 </div>
                 <div className="p-6">
                   <p className="editable-eyebrow text-[var(--tk-muted)]">Resource</p>
-                  <h3 className={`${dc.type.displayH4} mt-3 text-[var(--tk-text)]`}>
-                    {post.title}
-                  </h3>
+                  
                   {domain ? (
                     <p className="mt-4 flex items-center gap-2 border-t border-dashed border-[var(--tk-line)] pt-4 text-sm text-[var(--tk-muted)]">
                       <Globe className="h-3.5 w-3.5 text-[var(--tk-accent)]" />
